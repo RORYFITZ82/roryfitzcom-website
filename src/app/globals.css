@@ -1,0 +1,206 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Base palette */
+  --rf-navy: #2a1e48;
+  --rf-navy-deep: #1d1d1b;
+  --rf-navy-mid: #3d2e62;
+  --rf-pink: #e73a68;
+  --rf-pink-light: #f9afc6;
+  --rf-pink-deep: #c42550;
+
+  /* Neutrals */
+  --rf-white: #ffffff;
+  --rf-off-white: #f5f4f8;
+  --rf-grey-100: #dfe1e1;
+  --rf-grey-200: #c8cbcb;
+  --rf-grey-300: #a8acac;
+  --rf-grey-400: #7a7e7e;
+  --rf-grey-500: #4f5252;
+  --rf-black: #1d1d1b;
+
+  /* Semantic */
+  --color-bg-dark: var(--rf-navy-deep);
+  --color-bg-mid: var(--rf-navy);
+  --color-bg-light: var(--rf-off-white);
+  --color-bg-white: var(--rf-white);
+  --color-accent: var(--rf-pink);
+  --color-accent-hover: var(--rf-pink-light);
+  --color-accent-press: var(--rf-pink-deep);
+
+  --color-fg-primary: var(--rf-white);
+  --color-fg-secondary: var(--rf-grey-300);
+  --color-fg-dark: var(--rf-navy);
+  --color-fg-muted: var(--rf-grey-400);
+
+  --color-border-dark: rgba(255, 255, 255, 0.12);
+  --color-border-light: var(--rf-grey-200);
+
+  --color-success: #2ecc8b;
+  --color-warning: #f5a623;
+  --color-error: #e8315a;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 4px rgba(27, 20, 60, 0.15);
+  --shadow-md: 0 4px 20px rgba(27, 20, 60, 0.25);
+  --shadow-lg: 0 12px 48px rgba(27, 20, 60, 0.35);
+  --shadow-glow-pink: 0 0 32px rgba(232, 49, 90, 0.35);
+
+  /* Easing */
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--color-fg-dark);
+  background: var(--color-bg-light);
+  -webkit-font-smoothing: antialiased;
+}
+
+h2,
+h3 {
+  text-transform: uppercase;
+}
+
+/* Marquee */
+@keyframes rf-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.rf-marquee-track {
+  animation: rf-marquee 90s linear infinite;
+}
+.rf-marquee-wrap:hover .rf-marquee-track {
+  animation-play-state: paused;
+}
+
+/* Hero scroll bounce */
+.rf-hero-bounce {
+  animation: rf-bounce 2s ease-in-out infinite;
+}
+@keyframes rf-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+/* Scroll reveal */
+.rf-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s var(--ease-default),
+    transform 0.7s var(--ease-default);
+}
+.rf-reveal.rf-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+.rf-reveal.rf-d1 {
+  transition-delay: 0.08s;
+}
+.rf-reveal.rf-d2 {
+  transition-delay: 0.16s;
+}
+.rf-reveal.rf-d3 {
+  transition-delay: 0.24s;
+}
+.rf-reveal.rf-d4 {
+  transition-delay: 0.32s;
+}
+
+/* Project card image zoom */
+.rf-card-img {
+  overflow: hidden;
+  display: block;
+}
+.rf-card-img img {
+  transition: transform 0.7s var(--ease-apple);
+}
+.rf-card-img:hover img {
+  transform: scale(1.05);
+}
+
+/* Modal */
+@keyframes rf-modal-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes rf-modal-panel-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+.rf-modal-backdrop {
+  animation: rf-modal-in 0.3s var(--ease-apple);
+}
+.rf-modal-panel {
+  animation: rf-modal-panel-in 0.5s var(--ease-apple);
+}
+
+/* Testimonial quote fade: fades the text's own opacity to nothing via mask,
+   so it always matches whatever surface sits behind it. */
+.rf-fade-mask {
+  -webkit-mask-image: linear-gradient(to bottom, black calc(100% - 40px), transparent 100%);
+  mask-image: linear-gradient(to bottom, black calc(100% - 40px), transparent 100%);
+  transition: -webkit-mask-image 0.3s var(--ease-apple), mask-image 0.3s var(--ease-apple);
+}
+.group:hover .rf-fade-mask {
+  -webkit-mask-image: linear-gradient(to bottom, black 100%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 100%, transparent 100%);
+}
+
+/* Category filter row: horizontally scrollable on mobile, no visible scrollbar */
+.rf-cat-rows {
+  scrollbar-width: none;
+}
+.rf-cat-rows::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rf-marquee-track,
+  .rf-hero-bounce {
+    animation: none;
+  }
+  .rf-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .rf-card-img img {
+    transition: none;
+  }
+  .rf-modal-backdrop,
+  .rf-modal-panel {
+    animation: none;
+  }
+}
