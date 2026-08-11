@@ -33,7 +33,7 @@ export function Process() {
                     <span className="text-sm font-bold text-rf-pink">0{i + 1}</span>
                   </div>
                   <p className="mb-5 text-sm leading-relaxed text-white/55">{step.desc}</p>
-                  <div className="mt-auto aspect-[16/10] w-full overflow-hidden rounded-xl border border-white/[0.08]">
+                  <div className="mt-auto aspect-[20/11] w-full overflow-hidden rounded-xl border border-white/[0.08]">
                     <Illustration />
                   </div>
                 </div>

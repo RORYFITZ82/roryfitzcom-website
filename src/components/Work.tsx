@@ -6,10 +6,12 @@ import { Reveal } from "./Reveal";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectModal } from "./ProjectModal";
 import { CATEGORIES, PORTFOLIO_ITEMS, type PortfolioItem } from "@/lib/content";
+import { sortByCategoryOrder } from "@/lib/categoryOrder";
 
 const PAGE_SIZE = 9;
-const ROW_1 = CATEGORIES.slice(0, 7);
-const ROW_2 = CATEGORIES.slice(7);
+const ROW_SPLIT = Math.ceil(CATEGORIES.length / 2);
+const ROW_1 = CATEGORIES.slice(0, ROW_SPLIT);
+const ROW_2 = CATEGORIES.slice(ROW_SPLIT);
 
 type VimeoApiItem = {
   id: string;
@@ -60,10 +62,10 @@ export function Work() {
 
   const sourceItems = liveItems ?? PORTFOLIO_ITEMS;
 
-  const filtered = useMemo(
-    () => sourceItems.filter((item) => item.categories.includes(activeCategory)),
-    [sourceItems, activeCategory]
-  );
+  const filtered = useMemo(() => {
+    const matches = sourceItems.filter((item) => item.categories.includes(activeCategory));
+    return sortByCategoryOrder(matches, activeCategory);
+  }, [sourceItems, activeCategory]);
   const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const paged = filtered.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
 
@@ -83,9 +85,12 @@ export function Work() {
           <p className="text-base text-white/60">Browse by sector, format or creative discipline to see relevant experience.</p>
         </Reveal>
 
-        <div className="rf-cat-rows mb-12 flex flex-col gap-3 overflow-x-auto md:overflow-visible">
+        <div className="rf-cat-rows mb-12 flex flex-col gap-3">
           {[ROW_1, ROW_2].map((row, rowIdx) => (
-            <div key={rowIdx} className="flex flex-nowrap justify-start gap-2 md:flex-wrap md:justify-center">
+            <div
+              key={rowIdx}
+              className="flex flex-nowrap justify-start gap-2 overflow-x-auto md:flex-wrap md:justify-center md:overflow-visible"
+            >
               {row.map((cat) => (
                 <button
                   key={cat}
@@ -109,7 +114,9 @@ export function Work() {
               onClick={() => setPage((p) => Math.max(0, p - 1))}
               aria-label="Previous page"
               disabled={page === 0}
-              className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full border border-white/[0.10] bg-white/[0.04] text-white backdrop-blur-sm transition-all duration-base ease-apple hover:scale-105 hover:bg-white/[0.12] disabled:opacity-30 disabled:hover:scale-100"
+              className={`flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full border border-white/[0.10] bg-white/[0.04] text-white backdrop-blur-sm transition-all duration-base ease-apple hover:scale-105 hover:bg-white/[0.12] disabled:opacity-30 disabled:hover:scale-100 ${
+                page === 0 ? "" : "rf-arrow-pulse"
+              }`}
             >
               <ChevronLeft size={20} />
             </button>
@@ -124,7 +131,9 @@ export function Work() {
               onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))}
               aria-label="Next page"
               disabled={page >= pageCount - 1}
-              className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full border border-white/[0.10] bg-white/[0.04] text-white backdrop-blur-sm transition-all duration-base ease-apple hover:scale-105 hover:bg-white/[0.12] disabled:opacity-30 disabled:hover:scale-100"
+              className={`flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full border border-white/[0.10] bg-white/[0.04] text-white backdrop-blur-sm transition-all duration-base ease-apple hover:scale-105 hover:bg-white/[0.12] disabled:opacity-30 disabled:hover:scale-100 ${
+                page >= pageCount - 1 ? "" : "rf-arrow-pulse"
+              }`}
             >
               <ChevronRight size={20} />
             </button>

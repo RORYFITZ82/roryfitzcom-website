@@ -8,17 +8,19 @@ import { Process } from "@/components/Process";
 import { Testimonials } from "@/components/Testimonials";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
+import { VideoStructuredData } from "@/components/VideoStructuredData";
 
 export default function Home() {
   return (
     <div className="relative overflow-x-hidden bg-rf-off-white text-rf-navy">
+      <VideoStructuredData />
       <Nav />
       <Hero />
       <Marquee />
       <About />
+      <Process />
       <Services />
       <Work />
-      <Process />
       <Testimonials />
       <Contact />
       <Footer />

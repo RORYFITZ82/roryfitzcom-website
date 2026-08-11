@@ -53,7 +53,7 @@ export function ProjectModal({
     >
       <div
         ref={panelRef}
-        className="rf-modal-panel relative w-full max-w-2xl"
+        className="rf-modal-panel relative max-h-[90vh] w-full max-w-2xl overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -79,7 +79,9 @@ export function ProjectModal({
         <div className="rounded-b-3xl border border-t-0 border-white/[0.08] bg-[#1D1832]/95 p-8 backdrop-blur-xl">
           <h3 className="mb-2 text-2xl font-extrabold text-white">{item.title}</h3>
           {item.client && <p className="mb-4 text-sm font-bold text-rf-pink">{item.client}</p>}
-          {item.desc && <p className="mb-4 text-[15px] leading-loose text-white/70">{item.desc}</p>}
+          {item.desc && (
+            <p className="mb-4 whitespace-pre-line text-[15px] leading-loose text-white/70">{item.desc}</p>
+          )}
           {item.role && (
             <div className="flex flex-wrap gap-6 border-t border-white/10 pt-4">
               <div>

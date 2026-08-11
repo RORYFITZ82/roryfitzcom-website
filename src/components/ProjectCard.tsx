@@ -34,17 +34,7 @@ export function ProjectCard({
       </div>
       <div className="p-5">
         <h3 className="mb-1.5 text-base font-bold text-white">{item.title}</h3>
-        {item.client && <p className="mb-2.5 text-[13px] text-white/55">{item.client}</p>}
-        <div className="flex flex-wrap gap-1.5">
-          {item.categories.map((c) => (
-            <span
-              key={c}
-              className="rounded-pill bg-rf-pink/10 px-2.5 py-1 text-[11px] font-bold tracking-wide text-rf-pink"
-            >
-              {c}
-            </span>
-          ))}
-        </div>
+        {item.client && <p className="text-[13px] text-white/55">{item.client}</p>}
       </div>
     </div>
   );

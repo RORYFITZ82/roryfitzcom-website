@@ -62,18 +62,18 @@ export const SERVICES = [
 
 export const CATEGORIES = [
   "Featured",
-  "Showreels",
-  "Corporate",
+  "Animation",
+  "Broadcast",
   "Commercials",
-  "Social Content",
+  "Corporate",
+  "Events",
   "Explainers",
   "Medical",
-  "Technology",
-  "Broadcast",
-  "Animation",
   "Motion Graphics",
   "Real Estate",
-  "Events",
+  "Showreels",
+  "Social Content",
+  "Technology",
 ] as const;
 
 export type PortfolioItem = {
