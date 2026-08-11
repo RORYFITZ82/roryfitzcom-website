@@ -9,10 +9,12 @@ import { Testimonials } from "@/components/Testimonials";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { VideoStructuredData } from "@/components/VideoStructuredData";
+import { BusinessStructuredData } from "@/components/BusinessStructuredData";
 
 export default function Home() {
   return (
     <div className="relative overflow-x-hidden bg-rf-off-white text-rf-navy">
+      <BusinessStructuredData />
       <VideoStructuredData />
       <Nav />
       <Hero />

@@ -13,6 +13,10 @@ export function Hero() {
       id="home"
       className="relative min-h-[54vh] overflow-hidden bg-gradient-to-br from-[#0B0916] to-[#1D1832] md:min-h-[92vh]"
     >
+      <h1 className="sr-only">
+        Rory Fitzgerald — Freelance Motion Graphics Designer, Animator &amp; Video Producer in Dublin, Ireland
+      </h1>
+
       <div
         className="pointer-events-none absolute -bottom-[220px] -left-[160px] z-0 h-[520px] w-[520px] rounded-full blur-[90px]"
         style={{ background: "radial-gradient(circle, rgba(232,49,90,0.35), transparent 70%)" }}

@@ -1,5 +1,6 @@
 // Real content sourced from the client's existing site export.
 // Swap PORTFOLIO_ITEMS thumbnails / CLIENT_LOGOS with real assets when available.
+import { buildSlugMap } from "./slug";
 
 export const NAV_LINKS = [
   { href: "#about", label: "About" },
@@ -17,14 +18,12 @@ export const HERO = {
 };
 
 export const ABOUT = {
-  eyebrow: "Creative Strategy · Video Production · Motion Design · Animation",
-  heading: "Making stories matter.",
+  eyebrow: "Video Production · Motion Graphics · Animation · Creative Direction",
+  headingLines: ["Creative video production,", "from brief to final frame."],
   paragraphs: [
-    "Every strong story starts with a clear idea and a reason to care. Rory helps brands turn complex thinking into engaging, audience-focused content, combining strategy, storytelling and hands-on production from the first concept through to the final frame.",
-    "As a Senior Creative Content Producer & Motion Design Lead, he can shape the full creative journey or bring in modular expertise where it is needed most, building a flexible approach around the demands of each brief.",
+    "I'm a Dublin-based freelance Creative Director, Video Producer, Motion Designer, and Animator, helping brands, businesses and agencies create engaging, story-driven video content. From corporate films and social campaigns to advertising, animation and broadcast graphics, I can lead complete video projects from concept to delivery, or provide modular creative consultancy and production expertise where additional specialist support is needed.",
+    "I work with clients from the initial brief to the finished film, helping shape the idea, define the audience and turn the message into a clear creative approach. From there, I develop the creative, script and storyboard, build the right production around the brief, and oversee the project through post-production and delivery. Giving clients a single point of creative leadership, connecting strategy, storytelling and production into one coherent process.",
   ],
-  pullQuote:
-    "Because the best creative work does more than look good. It makes the story matter.",
 };
 
 export const SERVICES = [
@@ -78,6 +77,7 @@ export const CATEGORIES = [
 
 export type PortfolioItem = {
   id: number;
+  slug: string;
   title: string;
   client: string;
   categories: string[];
@@ -87,7 +87,7 @@ export type PortfolioItem = {
   embedUrl?: string;
 };
 
-export const PORTFOLIO_ITEMS: PortfolioItem[] = [
+const PORTFOLIO_ITEMS_RAW: Omit<PortfolioItem, "slug">[] = [
   { id: 1188172010, title: "Tullamore D.E.W.", client: "Tullamore D.E.W.", categories: ["Featured", "Commercials", "Broadcast"], role: "Editor", desc: "Brand commercial for the Irish whiskey house." },
   { id: 1188171905, title: "Tullamore D.E.W. — Campaign Cut", client: "Tullamore D.E.W.", categories: ["Commercials", "Broadcast"], role: "Editor", desc: "Alternate campaign edit for the Tullamore D.E.W. brand." },
   { id: 1209818858, title: "Adherent", client: "Adherent", categories: ["Featured", "Technology", "Motion Graphics"], role: "Motion Designer", desc: "Product motion graphics for a healthcare technology brand." },
@@ -125,6 +125,12 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
   { id: 969645753, title: "Neuropause Medical", client: "Neuropause", categories: ["Medical", "Explainers"], role: "Editor & Animator", desc: "Medical device explainer for Neuropause." },
   { id: 848037923, title: "Showreel", client: "Rory Fitzgerald", categories: ["Featured", "Showreels"], role: "Director & Editor", desc: "Full portfolio showreel." },
 ];
+
+const PORTFOLIO_SLUGS = buildSlugMap(PORTFOLIO_ITEMS_RAW);
+export const PORTFOLIO_ITEMS: PortfolioItem[] = PORTFOLIO_ITEMS_RAW.map((item) => ({
+  ...item,
+  slug: PORTFOLIO_SLUGS.get(item.id) ?? String(item.id),
+}));
 
 export const PROCESS_STEPS = [
   { title: "Discover", desc: "Understanding the message, audience and goals before a single frame is shot." },
@@ -202,4 +208,8 @@ export const CONTACT = {
   email: "roryfitz01@gmail.com",
   hours: ["Mon – Fri", "9:00am – 6:00pm"],
   linkedin: "https://www.linkedin.com/in/roryfitz/",
+  vimeo: "https://vimeo.com/roryfitz",
+  instagram: "https://instagram.com/roryfitz",
+  googleMaps: "https://maps.app.goo.gl/TUhD25py2hMHdjik9",
+  geo: { lat: 53.3301229, lng: -6.2592162 },
 };

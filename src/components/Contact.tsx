@@ -27,7 +27,7 @@ export function Contact() {
             <div className="grid grid-cols-2 gap-7">
               <div>
                 <div className="mb-2 text-[11px] font-bold uppercase tracking-wide text-white/40">Address</div>
-                <p className="text-sm leading-normal text-white">
+                <p className="mb-2 text-sm leading-normal text-white">
                   {CONTACT.address.map((line) => (
                     <span key={line}>
                       {line}
@@ -35,6 +35,14 @@ export function Contact() {
                     </span>
                   ))}
                 </p>
+                <a
+                  href={CONTACT.googleMaps}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-[13px] text-white/60 transition-colors duration-base ease-apple hover:text-rf-pink"
+                >
+                  <ExternalLink size={12} /> View on Google Maps
+                </a>
               </div>
               <div>
                 <div className="mb-2 text-[11px] font-bold uppercase tracking-wide text-white/40">Contact</div>
@@ -60,14 +68,32 @@ export function Contact() {
               </div>
               <div>
                 <div className="mb-2 text-[11px] font-bold uppercase tracking-wide text-white/40">Follow</div>
-                <a
-                  href={CONTACT.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm text-white transition-colors duration-base ease-apple hover:text-rf-pink"
-                >
-                  <ExternalLink size={14} /> LinkedIn
-                </a>
+                <div className="flex flex-col gap-2">
+                  <a
+                    href={CONTACT.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-sm text-white transition-colors duration-base ease-apple hover:text-rf-pink"
+                  >
+                    <ExternalLink size={14} /> LinkedIn
+                  </a>
+                  <a
+                    href={CONTACT.vimeo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-sm text-white transition-colors duration-base ease-apple hover:text-rf-pink"
+                  >
+                    <ExternalLink size={14} /> Vimeo
+                  </a>
+                  <a
+                    href={CONTACT.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-sm text-white transition-colors duration-base ease-apple hover:text-rf-pink"
+                  >
+                    <ExternalLink size={14} /> Instagram
+                  </a>
+                </div>
               </div>
             </div>
           </div>

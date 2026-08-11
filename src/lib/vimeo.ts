@@ -1,4 +1,5 @@
 import { CATEGORIES } from "./content";
+import { buildSlugMap } from "./slug";
 
 // Server-only: fetches Rory's full Vimeo library and categorises each video
 // using its real Vimeo tags, filtered down to the site's fixed set of
@@ -13,6 +14,7 @@ const CATEGORY_DISPLAY = new Map(CATEGORIES.map((c) => [c.toLowerCase(), c] as c
 
 export type VimeoLibraryItem = {
   id: string;
+  slug: string;
   title: string;
   desc: string;
   thumbUrl: string;
@@ -72,7 +74,7 @@ export async function fetchVimeoLibrary(): Promise<VimeoLibraryItem[]> {
   }
 
   const seen = new Set<string>();
-  const items: VimeoLibraryItem[] = [];
+  const items: Omit<VimeoLibraryItem, "slug">[] = [];
   for (const v of videos) {
     const id = v.uri.split("/").pop() as string;
     if (seen.has(id)) continue;
@@ -99,5 +101,8 @@ export async function fetchVimeoLibrary(): Promise<VimeoLibraryItem[]> {
     });
   }
 
-  return items;
+  // Slugs are derived from the whole batch at once so duplicate titles
+  // (e.g. two separate "Tullamore D.E.W." uploads) get disambiguated.
+  const slugs = buildSlugMap(items.map((item) => ({ id: Number(item.id), title: item.title })));
+  return items.map((item) => ({ ...item, slug: slugs.get(Number(item.id)) ?? item.id }));
 }

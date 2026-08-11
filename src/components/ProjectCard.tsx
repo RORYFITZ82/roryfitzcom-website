@@ -1,22 +1,12 @@
+import Link from "next/link";
 import { Play } from "lucide-react";
 import type { PortfolioItem } from "@/lib/content";
 
-export function ProjectCard({
-  item,
-  onOpen,
-}: {
-  item: PortfolioItem;
-  onOpen: () => void;
-}) {
+export function ProjectCard({ item }: { item: PortfolioItem }) {
   return (
-    <div
-      onClick={onOpen}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") onOpen();
-      }}
-      className="group cursor-pointer overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] shadow-[0_4px_20px_rgba(0,0,0,0.25)] transition-all duration-slow ease-apple hover:-translate-y-1 hover:border-white/[0.16] hover:shadow-[0_20px_48px_rgba(0,0,0,0.4)]"
+    <Link
+      href={`/work/${item.slug}`}
+      className="group block cursor-pointer overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] shadow-[0_4px_20px_rgba(0,0,0,0.25)] transition-all duration-slow ease-apple hover:-translate-y-1 hover:border-white/[0.16] hover:shadow-[0_20px_48px_rgba(0,0,0,0.4)]"
     >
       <div className="rf-card-img relative aspect-[16/10] overflow-hidden rounded-t-2xl [-webkit-mask-image:-webkit-radial-gradient(white,black)]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -36,6 +26,6 @@ export function ProjectCard({
         <h3 className="mb-1.5 text-base font-bold text-white">{item.title}</h3>
         {item.client && <p className="text-[13px] text-white/55">{item.client}</p>}
       </div>
-    </div>
+    </Link>
   );
 }

@@ -1,10 +1,10 @@
 "use client";
 
 import { Clapperboard, ChevronLeft, ChevronRight } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { Reveal } from "./Reveal";
 import { ProjectCard } from "./ProjectCard";
-import { ProjectModal } from "./ProjectModal";
 import { CATEGORIES, PORTFOLIO_ITEMS, type PortfolioItem } from "@/lib/content";
 import { sortByCategoryOrder } from "@/lib/categoryOrder";
 
@@ -15,6 +15,7 @@ const ROW_2 = CATEGORIES.slice(ROW_SPLIT);
 
 type VimeoApiItem = {
   id: string;
+  slug: string;
   title: string;
   desc: string;
   thumbUrl: string;
@@ -24,10 +25,24 @@ type VimeoApiItem = {
 
 const STATIC_BY_ID = new Map(PORTFOLIO_ITEMS.map((item) => [item.id, item]));
 
+// useSearchParams() opts the reading component out of static rendering unless
+// it's wrapped in Suspense — isolated here so only this sliver (not the whole
+// section) needs the boundary.
+function CategoryFromUrl({ onCategory }: { onCategory: (cat: string) => void }) {
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    const requested = searchParams.get("category");
+    if (requested && (CATEGORIES as readonly string[]).includes(requested)) {
+      onCategory(requested);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+  return null;
+}
+
 export function Work() {
   const [activeCategory, setActiveCategory] = useState<string>("Featured");
   const [page, setPage] = useState(0);
-  const [activeProject, setActiveProject] = useState<PortfolioItem | null>(null);
   const [liveItems, setLiveItems] = useState<PortfolioItem[] | null>(null);
 
   useEffect(() => {
@@ -41,6 +56,7 @@ export function Work() {
           const known = STATIC_BY_ID.get(id);
           return {
             id,
+            slug: v.slug,
             title: v.title,
             client: known?.client ?? "",
             categories: v.categories,
@@ -76,6 +92,9 @@ export function Work() {
 
   return (
     <section id="work" className="hidden bg-gradient-to-br from-[#0B0916] to-[#2B2449] px-6 py-24 md:block md:py-36">
+      <Suspense fallback={null}>
+        <CategoryFromUrl onCategory={setActiveCategory} />
+      </Suspense>
       <div className="mx-auto max-w-[1280px]">
         <Reveal className="mx-auto mb-10 max-w-[640px] text-center">
           <div className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-rf-pink">
@@ -123,7 +142,7 @@ export function Work() {
           )}
           <div className="grid flex-1 grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {paged.map((item) => (
-              <ProjectCard key={item.id} item={item} onOpen={() => setActiveProject(item)} />
+              <ProjectCard key={item.id} item={item} />
             ))}
           </div>
           {pageCount > 1 && (
@@ -140,8 +159,6 @@ export function Work() {
           )}
         </div>
       </div>
-
-      {activeProject && <ProjectModal item={activeProject} onClose={() => setActiveProject(null)} />}
     </section>
   );
 }

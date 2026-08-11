@@ -57,7 +57,7 @@ export function Nav() {
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             />
           )}
-          <a href="#home" className="relative z-[1] flex flex-shrink-0 items-center px-2.5 py-0 pl-1.5">
+          <a href="/#home" className="relative z-[1] flex flex-shrink-0 items-center px-2.5 py-0 pl-1.5">
             <Image src="/images/rf-logo-mark.png" alt="Rory Fitzgerald" width={38} height={38} className="h-[38px] w-auto" />
           </a>
           {NAV_LINKS.map((link) => {
@@ -67,7 +67,7 @@ export function Nav() {
               <a
                 key={link.href}
                 id={`nav-link-${id}`}
-                href={link.href}
+                href={`/${link.href}`}
                 className={`relative z-[1] whitespace-nowrap rounded-pill px-4 py-2.5 text-sm font-semibold transition-colors hover:bg-white/10 ${
                   isActive ? "text-white" : "text-white/70"
                 }`}
@@ -97,7 +97,7 @@ export function Nav() {
             {["home", "about", "services", "work", "contact"].map((id, i, arr) => (
               <a
                 key={id}
-                href={`#${id}`}
+                href={`/#${id}`}
                 onClick={() => setOpen(false)}
                 className={`py-3 text-base font-semibold capitalize text-white ${
                   i < arr.length - 1 ? "border-b border-white/10" : ""
