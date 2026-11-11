@@ -10,6 +10,16 @@ function chunk<T>(items: T[], size: number): T[][] {
   return Array.from({ length: Math.ceil(items.length / size) }, (_, i) => items.slice(i * size, i * size + size));
 }
 
+function initials(name: string): string {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+}
+
 export function Testimonials() {
   const [isMobile, setIsMobile] = useState(false);
   const [index, setIndex] = useState(0);
@@ -82,13 +92,22 @@ export function Testimonials() {
                             <Star key={i} size={14} className="fill-rf-pink text-rf-pink" />
                           ))}
                         </div>
-                        <Image
-                          src={t.avatar}
-                          alt={t.name}
-                          width={36}
-                          height={36}
-                          className="h-9 w-9 flex-shrink-0 rounded-full object-cover"
-                        />
+                        {t.avatar ? (
+                          <Image
+                            src={t.avatar}
+                            alt={t.name}
+                            width={36}
+                            height={36}
+                            className="h-9 w-9 flex-shrink-0 rounded-full object-cover"
+                          />
+                        ) : (
+                          <div
+                            aria-hidden="true"
+                            className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-rf-pink/20 text-xs font-bold tracking-wide text-rf-pink"
+                          >
+                            {initials(t.name)}
+                          </div>
+                        )}
                       </div>
                       <div className="mb-2.5 text-[15px] font-bold text-white">{t.name}</div>
                       <div className="relative mb-5 max-h-[92px] overflow-hidden transition-[max-height] duration-700 ease-apple group-hover:max-h-[600px]">
